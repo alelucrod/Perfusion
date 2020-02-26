@@ -1344,7 +1344,7 @@
         <string>Total flow (ml)</string>
        </property>
       </widget>
-      <widget class="QLineEdit" name="lineEdit_9">
+      <widget class="QLineEdit" name="initialSolute">
        <property name="geometry">
         <rect>
          <x>140</x>
@@ -1373,7 +1373,7 @@
         <string>Initial solute (ml)</string>
        </property>
       </widget>
-      <widget class="QLineEdit" name="lineEdit_10">
+      <widget class="QLineEdit" name="totalFlow">
        <property name="geometry">
         <rect>
          <x>140</x>
