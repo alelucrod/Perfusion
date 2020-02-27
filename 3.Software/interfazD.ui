@@ -45,7 +45,7 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -1341,7 +1341,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>Total flow (ml)</string>
+        <string>Total flow (ml-Min)</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="initialSolute">
