@@ -827,7 +827,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
           print("Error with I2C module")
           print(int(voltage))
 
-    ## DACMCP4725_b Voltage writter
+    ### DACMCP4725_b Voltage writter
     def writeVoltage_b(self, voltage):
         try:
           dac_b.raw_value = int(voltage)
