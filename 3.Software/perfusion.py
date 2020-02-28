@@ -216,8 +216,8 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         
         
         #Add button events (connect .ui element with button fcn action)
-        self.btn_start.clicked.connect(self.buttonPress_Start)
-        self.btn_stop.clicked.connect(self.buttonPress_Stop)
+        #D#self.btn_start.clicked.connect(self.buttonPress_Start)
+        #D#self.btn_stop.clicked.connect(self.buttonPress_Stop)
 
         self.btn_relay1_on.clicked.connect(self.buttonPress_relay1_on)
         self.btn_relay1_off.clicked.connect(self.buttonPress_relay1_off)
@@ -233,18 +233,18 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
 # STEP RESPONSE---------------------------------------------------------------------------------------
 #----------PUMP A--------------------------------------------------------------------
-        self.btnStart_step_a.clicked.connect(self.startProgress_a)
-        self.btnReset_step_a.clicked.connect(self.resetBar_a)
+        #D#self.btnStart_step_a.clicked.connect(self.startProgress_a)
+        #D#self.btnReset_step_a.clicked.connect(self.resetBar_a)
 #----------PUMP B--------------------------------------------------------------------
-        self.btnStart_step_b.clicked.connect(self.startProgress_b)
-        self.btnReset_step_b.clicked.connect(self.resetBar_b)
+        #D#self.btnStart_step_b.clicked.connect(self.startProgress_b)
+        #D#self.btnReset_step_b.clicked.connect(self.resetBar_b)
 ## RAMP RESPONSE---------------------------------------------------------------------------------------
 ##----------PUMP A--------------------------------------------------------------------
-#        self.btnStart_ramp_a.clicked.connect(self.startProgress)
-#        self.btnReset_ramp_a.clicked.connect(self.resetBar)
+#        #D#self.btnStart_ramp_a.clicked.connect(self.startProgress)
+#        #D#self.btnReset_ramp_a.clicked.connect(self.resetBar)
 ##----------PUMP B--------------------------------------------------------------------
-#        self.btnStart_ramp_b.clicked.connect(self.startProgress)
-#        self.btnReset_ramp_b.clicked.connect(self.resetBar)
+#        #D#self.btnStart_ramp_b.clicked.connect(self.startProgress)
+#        #D#self.btnReset_ramp_b.clicked.connect(self.resetBar)
         
         #-----------------------------------------------------------------------
 
@@ -258,16 +258,123 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.btn_pump1.clicked.connect(self.buttonPress_pump1)
         self.btn_pump2.clicked.connect(self.buttonPress_pump2)
-        self.btn_pump3.clicked.connect(self.buttonPress_pump3)
+        #D#self.btn_pump3.clicked.connect(self.buttonPress_pump3)
+
+
+##Desiré: nuevos botones pestaña protocols--------------------------------------	
+
+        self.pushButton_addHold.clicked.connect(self.buttonPress_pushButton_addHold)
+        self.pushButton_addRamp.clicked.connect(self.buttonPress_pushButton_addRamp)
+
+   
+        self.start.clicked.connect(self.buttonPress_start)
+        self.pause.clicked.connect(self.buttonPress_pause)
+        self.reset.clicked.connect(self.buttonPress_reset)
+        self.stop.clicked.connect(self.buttonPress_stop)
+
+        self.timeMode.clicked.connect(self.buttonPress_timeMode)
+        self.temperatureMode.clicked.connect(self.buttonPress_temperatureMode)
+##FIN----------------------------------------------------------------------------------
+
+
 
         # Load default .conf data if exists
         self.buttonPress_loadProfile()
         
 
     #DEFINES FUNCTION ACTIONS FOR ELEMENTS (BUTTONS; ETC)#
-        
+
+##Desiré: funciones botones pestaña protocols----------------------------------------------------------
+
     ###########################################################
-    ##            'TOOLS AND TEST' TAB (BUTTONS ACTIONS      ##
+    ##            'PROTOCOLS' TAB (BUTTONS ACTIONS)      ##
+    ###########################################################  
+
+
+    def buttonPress_pushButton_addHold(self):
+
+
+    def buttonPress_pushButton_addRamp(self):
+
+
+    def buttonPress_start(self):
+        if self.start.isEnabled():
+            self.start.setEnabled(False)
+            self.stop.setEnabled(True)
+            self.pause.setEnabled(True)
+            self.reset.setEnabled(False)
+        else:
+            self.start.setEnabled(True)
+            self.true.setEnabled(False)
+
+
+    def buttonPress_stop(self):
+        if self.stop.isEnabled():
+            self.start.setEnabled(True)
+            self.stop.setEnabled(False)
+            self.pause.setEnabled(False)
+            self.reset.setEnabled(True)
+        else:
+            self.start.setEnabled(False)
+            self.true.setEnabled(True)
+
+
+    def buttonPress_pause(self):
+        if self.pause.isEnabled():
+            self.pause.setEnabled(False)
+            self.stop.setEnabled(False)
+            self.reset.setEnabled(True)
+            self.start.setEnabled(True)
+        else:
+            self.start.setEnabled(False)
+            self.true.setEnabled(True)
+
+
+    def buttonPress_reset(self):
+
+        if self.pause.isEnabled():
+            self.pause.setEnabled(False)
+            self.stop.setEnabled(False)
+            self.reset.setEnabled(False)
+            self.start.setEnabled(True)
+        else:
+            self.start.setEnabled(False)
+            self.true.setEnabled(True)
+
+
+    def buttonPress_timeMode(self):
+            self.label_6.setEnabled(False)
+            self.coolingRate.setEnabled(False)
+            self.label_7.setEnabled(False)
+            self.stepJump.setEnabled(False)
+            self.label_23.setEnabled(True)
+            self.duration.setEnabled(True)
+
+    def buttonPress_temperatureMode(self):
+
+            self.label_6.setEnabled(True)
+            self.coolingRate.setEnabled(True)
+            self.label_7.setEnabled(True)
+            self.stepJump.setEnabled(True)
+            self.label_23.setEnabled(False)
+            self.duration.setEnabled(False) 
+    
+    def loadDefaultProfile(self):
+        list_thermo_module = [
+            self.tr('Module 1'),
+            self.tr('Module 2'),
+            self.tr('Module 3'),
+          
+        ]
+
+
+     self.comboBox_thermo1_2_3.clear()
+
+     self.comboBox_thermo1_2_3.addItems(list_thermo_module)
+##FIN-------------------------------------------------------------------
+
+    ###########################################################
+    ##            'TOOLS AND TEST' TAB (BUTTONS ACTIONS)      ##
     ###########################################################    
     def buttonPress_relay1_on(self):
         GPIO.setup(pin_relay1, GPIO.OUT)
@@ -721,7 +828,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
           print("Error with I2C module")
           print(int(voltage))
 
-    ## DACMCP4725_b Voltage writter
+    ### DACMCP4725_b Voltage writter
     def writeVoltage_b(self, voltage):
         try:
           dac_b.raw_value = int(voltage)
