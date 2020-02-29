@@ -1119,6 +1119,11 @@
       </column>
       <column>
        <property name="text">
+        <string>Duration (min)</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
         <string>Cooling Rate (ml-Min)</string>
        </property>
       </column>
