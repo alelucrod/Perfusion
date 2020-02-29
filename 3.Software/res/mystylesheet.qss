@@ -1,0 +1,33 @@
+/* We provide a min-width and min-height for push buttons
+   so that they look elegant regardless of the width of the text. */
+QPushButton {
+  font-family: Tahoma;
+  font-size: 11px;
+}
+
+QLabel {
+  font-family: Tahoma;
+  font-size: 11px;
+}
+
+QLineEdit {
+  font-family: Tahoma;
+  font-size: 11px;
+}
+
+QGroupBox {
+  font-family: Tahoma;
+  font-size: 11px;
+  border: 2px solid gray;
+  border-radius: 5px;
+  margin-top: 1ex; /* leave space at the top for the title */
+}
+
+QComboBox {
+  font-family: Tahoma;
+  font-size: 11px;
+}
+
+QTextEdit {
+  background: transparent;
+}

@@ -4,7 +4,8 @@
 
 #We import the libraries
 import logging
-import Adafruit_GPIO
+#import Adafruit_GPIO
+import digitalio
 import sys
 import time
 import inspect, os
@@ -12,14 +13,13 @@ import board
 import busio
 import RPi.GPIO as GPIO
 import adafruit_mcp4725
+import adafruit_max31856
 from PyQt5 import uic, QtWidgets, QtGui, QtCore
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtGui import QFont
-from PyQt5.QtWidgets import  QWidget, QProgressBar, QPushButton, QApplication, QFileDialog
+from PyQt5.QtWidgets import  QWidget, QProgressBar, QPushButton, QApplication, QFileDialog, QTableWidget, QTableWidgetItem, QVBoxLayout
 from PyQt5.QtCore import QBasicTimer
-
-
-from Adafruit_MAX31856 import MAX31856 as MAX31856
+#from Plotter import CustomWidget
 
 #Define Default Pinout
 #It'll be loaded by default
@@ -59,8 +59,10 @@ appTitle = 'Perfusion Control Panel'
 appWidth = 800
 appHeight = 500
 
+numColsMax = 7     #Tabla protocolo
+
 #Define the GUI and init libraries
-qtCreatorFile = "interfaz.ui"
+qtCreatorFile = "forms/interfaz.ui"
 
 
 #We create the GUI using .UI Qt designer file
@@ -72,13 +74,22 @@ GPIO.setmode(GPIO.BCM)
 # Initialize I2C bus.
 i2c = busio.I2C(board.SCL, board.SDA)
 
+#INIT SPI
+spi = busio.SPI(board.SCK, board.MOSI, board.MISO)
+
+# allocate a CS pin and set the direction
+cs1 = digitalio.DigitalInOut(board.D7)
+cs2 = digitalio.DigitalInOut(board.D8)
+cs3 = digitalio.DigitalInOut(board.D12)
+cs1.direction = digitalio.Direction.OUTPUT
+cs2.direction = digitalio.Direction.OUTPUT
+cs3.direction = digitalio.Direction.OUTPUT
+
 
 # Initialize MCP4725.
 dac_a = adafruit_mcp4725.MCP4725(i2c, address=0x60)
 dac_b = adafruit_mcp4725.MCP4725(i2c, address=0x61)
 
-# Optionally you can specify a different addres if you override the A0 pin.
-#amp = adafruit_max9744.MAX9744(i2c, address=0x60)
 
 # There are a three ways to set the DAC output, you can use any of these:
 dac_a.value = 65500  # Use the value property with a 16-bit number just like
@@ -111,32 +122,21 @@ dac_b.normalized_value = 1.0  # Use the normalized_value property to set the
                             # 0 to 1.0 where 0 is minimum/ground and 1.0 is
                             # maximum/Vout.
 
-# Use the raw_value property to directly read and write
-# the 12-bit DAC value.  The range of values is
-# 0 (minimum/ground) to 4095 (maximum/Vout).
-##dac.raw_value = 4095
+
+## Raspberry Pi software SPI configuration.
+sensor_1 = adafruit_max31856.MAX31856(spi, cs1)
+sensor_2 = adafruit_max31856.MAX31856(spi, cs2)
+sensor_3 = adafruit_max31856.MAX31856(spi, cs3)
+#-----------------------------------------------------------
 
 
-#alberto--------------------------------------------------
+#-DATALOGGER--------------------------------------------------
 logging.basicConfig(
     filename='simpletest.log',
     level=logging.DEBUG,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 _logger = logging.getLogger(__name__)
-
-# Uncomment one of the blocks of code below to configure your Pi to use software or hardware SPI.
-
-## Raspberry Pi software SPI configuration.
-software_spi_1 = {"clk": 11, "cs": 7, "do": 9, "di": 10}
-sensor_1 = MAX31856(software_spi=software_spi_1, tc_type=MAX31856.MAX31856_K_TYPE)
-
-software_spi_2 = {"clk": 11, "cs": 8, "do": 9, "di": 10}
-sensor_2 = MAX31856(software_spi=software_spi_2, tc_type=MAX31856.MAX31856_K_TYPE)
-
-software_spi_3 = {"clk": 11, "cs": 12, "do": 9, "di": 10}
-sensor_3 = MAX31856(software_spi=software_spi_3, tc_type=MAX31856.MAX31856_K_TYPE)
-#-----------------------------------------------------------
-
+#-DATALOGGER--------------------------------------------------
 
 
 class Buzzer(object):
@@ -198,7 +198,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.closeEvent = self.closeEvent
         self.setupUi(self)
 
-        #global variableS to PROTOCOLS
+        #global variableS to PROTOCOLS ///uhmmmm
         self.timera = QBasicTimer()
         self.step_a = 0
         self.timerb = QBasicTimer()
@@ -213,40 +213,19 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
         #Load default profile (Init GUI Values)
         self.loadDefaultProfile()
-        
-        
-        #Add button events (connect .ui element with button fcn action)
-        #D#self.btn_start.clicked.connect(self.buttonPress_Start)
-        #D#self.btn_stop.clicked.connect(self.buttonPress_Stop)
 
         self.btn_relay1_on.clicked.connect(self.buttonPress_relay1_on)
         self.btn_relay1_off.clicked.connect(self.buttonPress_relay1_off)
         self.btn_relay2_on.clicked.connect(self.buttonPress_relay2_on)
         self.btn_relay2_off.clicked.connect(self.buttonPress_relay2_off)
 
-        #alberto----------------------------------------------------------------
+
         self.btn_pump_9.clicked.connect(self.getit_thermo1)
         self.pushButton_28.clicked.connect(self.getit_thermo2)
         self.pushButton_27.clicked.connect(self.getit_thermo3)
 
         self.pushButton_buzzer.clicked.connect(self.buttonPress_buzzer)
 
-# STEP RESPONSE---------------------------------------------------------------------------------------
-#----------PUMP A--------------------------------------------------------------------
-        #D#self.btnStart_step_a.clicked.connect(self.startProgress_a)
-        #D#self.btnReset_step_a.clicked.connect(self.resetBar_a)
-#----------PUMP B--------------------------------------------------------------------
-        #D#self.btnStart_step_b.clicked.connect(self.startProgress_b)
-        #D#self.btnReset_step_b.clicked.connect(self.resetBar_b)
-## RAMP RESPONSE---------------------------------------------------------------------------------------
-##----------PUMP A--------------------------------------------------------------------
-#        #D#self.btnStart_ramp_a.clicked.connect(self.startProgress)
-#        #D#self.btnReset_ramp_a.clicked.connect(self.resetBar)
-##----------PUMP B--------------------------------------------------------------------
-#        #D#self.btnStart_ramp_b.clicked.connect(self.startProgress)
-#        #D#self.btnReset_ramp_b.clicked.connect(self.resetBar)
-        
-        #-----------------------------------------------------------------------
 
         self.btn_saveProfile.clicked.connect(self.buttonPress_saveProfile)
         self.btn_loadProfile.clicked.connect(self.buttonPress_loadProfile)
@@ -258,7 +237,6 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.btn_pump1.clicked.connect(self.buttonPress_pump1)
         self.btn_pump2.clicked.connect(self.buttonPress_pump2)
-        #D#self.btn_pump3.clicked.connect(self.buttonPress_pump3)
 
 
 ##Desiré: nuevos botones pestaña protocols--------------------------------------	
@@ -274,17 +252,27 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.timeMode.clicked.connect(self.buttonPress_timeMode)
         self.temperatureMode.clicked.connect(self.buttonPress_temperatureMode)
+
+
+        #Maquetacion de columnas (tabla protocolo)
+        self.tableWidget.setColumnCount(numColsMax)
+
+        self.tableWidget.setColumnWidth(0, 80)
+        self.tableWidget.setColumnWidth(1, 110)
+        self.tableWidget.setColumnWidth(2, 110)
+        self.tableWidget.setColumnWidth(3, 135)
+        self.tableWidget.setColumnWidth(4, 110)
+        self.tableWidget.setColumnWidth(5, 110)
+        self.tableWidget.setColumnWidth(6, 82)
+        
 ##FIN----------------------------------------------------------------------------------
 
 
 
         # Load default .conf data if exists
-        self.buttonPress_loadProfile()
-        
+        self.buttonPress_loadProfile()        
 
     #DEFINES FUNCTION ACTIONS FOR ELEMENTS (BUTTONS; ETC)#
-
-##Desiré: funciones botones pestaña protocols----------------------------------------------------------
 
     ###########################################################
     ##            'PROTOCOLS' TAB (BUTTONS ACTIONS)      ##
@@ -292,10 +280,32 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
 
     def buttonPress_pushButton_addHold(self):
+        ##agregamos fila vacia
+        rowPosition = self.tableWidget.rowCount()
+        self.tableWidget.insertRow(rowPosition)
+        ##Seleccionamos el ultimo item y agregamos la info
+        self.tableWidget.setItem(rowPosition, 0, QTableWidgetItem("Hold"))
+        self.tableWidget.setItem(rowPosition, 1, QTableWidgetItem(self.fromValue.text()))
+        self.tableWidget.setItem(rowPosition, 2, QTableWidgetItem(self.toValue.text()))
+        self.tableWidget.setItem(rowPosition, 3, QTableWidgetItem(self.coolingRate.text()))
+        self.tableWidget.setItem(rowPosition, 4, QTableWidgetItem(self.stepJump.text()))
+        self.tableWidget.setItem(rowPosition, 5, QTableWidgetItem(self.holdTime.text()))
+        self.tableWidget.setItem(rowPosition, 6, QTableWidgetItem("Undone"))
 
 
     def buttonPress_pushButton_addRamp(self):
-
+        ##agregamos fila vacia
+        rowPosition = self.tableWidget.rowCount()
+        self.tableWidget.insertRow(rowPosition)
+        ##Seleccionamos el ultimo item y agregamos la info
+        self.tableWidget.setItem(rowPosition, 0, QTableWidgetItem("Ramp"))
+        self.tableWidget.setItem(rowPosition, 1, QTableWidgetItem(self.fromValue.text()))
+        self.tableWidget.setItem(rowPosition, 2, QTableWidgetItem(self.toValue.text()))
+        self.tableWidget.setItem(rowPosition, 3, QTableWidgetItem(self.coolingRate.text()))
+        self.tableWidget.setItem(rowPosition, 4, QTableWidgetItem(self.stepJump.text()))
+        self.tableWidget.setItem(rowPosition, 5, QTableWidgetItem(self.holdTime.text()))
+        self.tableWidget.setItem(rowPosition, 6, QTableWidgetItem("Undone"))
+ 
 
     def buttonPress_start(self):
         if self.start.isEnabled():
@@ -314,6 +324,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
             self.stop.setEnabled(False)
             self.pause.setEnabled(False)
             self.reset.setEnabled(True)
+            self.start.setText("START")
         else:
             self.start.setEnabled(False)
             self.true.setEnabled(True)
@@ -325,6 +336,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
             self.stop.setEnabled(False)
             self.reset.setEnabled(True)
             self.start.setEnabled(True)
+            self.start.setText("RESUME")
         else:
             self.start.setEnabled(False)
             self.true.setEnabled(True)
@@ -332,14 +344,16 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def buttonPress_reset(self):
 
-        if self.pause.isEnabled():
+        if self.reset.isEnabled():
             self.pause.setEnabled(False)
             self.stop.setEnabled(False)
             self.reset.setEnabled(False)
             self.start.setEnabled(True)
+            self.start.setText("START")
         else:
             self.start.setEnabled(False)
             self.true.setEnabled(True)
+            
 
 
     def buttonPress_timeMode(self):
@@ -368,9 +382,6 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         ]
 
 
-     self.comboBox_thermo1_2_3.clear()
-
-     self.comboBox_thermo1_2_3.addItems(list_thermo_module)
 ##FIN-------------------------------------------------------------------
 
     ###########################################################
@@ -393,26 +404,17 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         GPIO.setup(pin_relay2, GPIO.OUT)
         GPIO.output(pin_relay2, True)
 
-#alberto--------------------------------------------------
-
     def getit_thermo1(self):
-        temp_1 = sensor_1.read_temp_c()
-        internal_1 = sensor_1.read_internal_temp_c()
-        self.lineEdit_34.setText(format(temp_1))
-        #self.lineEdit_34.setText('5')
+        temp_1 = sensor_1.temperature
+        self.lineEdit_34.setText("{0:.3f}".format(temp_1))
 
     def getit_thermo2(self):
-        temp_2 = sensor_2.read_temp_c()
-        internal_2 = sensor_2.read_internal_temp_c()
-        self.lineEdit_35.setText(format(temp_2))
-##        #self.lineEdit_34.setText('5')
-##
+        temp_2 = sensor_2.temperature
+        self.lineEdit_35.setText("{0:.3f}".format(temp_2))
+        
     def getit_thermo3(self):
-        temp_3 = sensor_3.read_temp_c()
-        internal_3 = sensor_3.read_internal_temp_c()
-        self.lineEdit_36.setText(format(temp_3))
-##        #self.lineEdit_34.setText('5')
-
+        temp_3 = sensor_3.temperature
+        self.lineEdit_36.setText("{0:.3f}".format(temp_3))
 
     def buttonPress_buzzer(self):
         buzzer = Buzzer()
@@ -440,8 +442,6 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         GPIO.output(pin_led3, False)
 
     def buttonPress_pump1(self):
-##        print('Hola, el valor elegido es: ' + int(self.lineEdit_pump1.text()))
-        print('Hola, el valor elegido es: ' + self.lineEdit_pump1.text())
         self.writeVoltage_a(self.lineEdit_pump1.text())  
 
     def buttonPress_pump2(self):
@@ -666,64 +666,6 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
             self.btn_pump_1.setText('FORCE PUMP 1')
             #self.btn_pump_1.setEnabled(True)
 
-#------------------------------------------------------------------------------
-##    @property
-##    def state(self):
-##        return self._state
-##
-##    @state.setter
-##    def state(self, value):
-##        self._state = value
-##
-##    def on_click(self, event=None):
-##        sending_button = self.sender() #getting button name
-##        btn_name = str(sending_button.objectName())
-##        if btn_name == 'start_step_dac_a':
-##            old_state = self.state
-##            self.state = 1 #changing state to sampling
-##            self.start_step_dac_a.setEnabled(False)
-##            self.stop_step_dac_a.setEnabled(True)
-##            dac_b.raw_value = 0
-##            time.sleep(2.0) #Sleep the main thread 2 s
-##            dac_b.raw_value = 4095
-##            time.sleep(10.0) #Sleep the main thread 10 s
-##            dac_b.raw_value = 0
-##        elif btn_name == 'stop_step_dac_a'
-##            old_state = self.state
-##            self.state = 0 #changing state to idle
-##            self.start_step_dac_a.setEnabled(True)
-##            self.stop_step_dac_a.setEnabled(False)
-##            dac_a.raw_value = 0
-            
-    
-##    def buttonPress_start_step_dac_a(self):
-##        if self.start_step_dac_a.isEnabled():
-##            self.start_step_dac_a.setEnabled(False)
-##            self.stop_step_dac_a.setEnabled(True)
-##            dac_a.raw_value = 0
-##            time.sleep(2.0) #Sleep the main thread 2 s
-##            dac_a.raw_value = 4095
-##            time.sleep(2.0) #Sleep the main thread 2 s
-##        else:
-##            self.start_step_dac_a.setEnabled(True)
-##            self.stop_step_dac_a.setEnabled(False)
-##            dac_a.raw_value = 0
-##
-##
-##    def buttonPress_stop_step_dac_a(self):
-##        if self.stop_step_dac_a.isEnabled():
-##            self.start_step_dac_a.setEnabled(True)
-##            self.stop_step_dac_a.setEnabled(False)
-##            dac_a.raw_value = 0
-##        else:
-##            self.start_step_dac_a.setEnabled(False)
-##            self.stop_step_dac_a.setEnabled(True)
-##            dac_a.raw_value = 0
-##            time.sleep(2.0) #Sleep the main thread 2 s
-##            dac_a.raw_value = 4095
-##            time.sleep(2.0) #Sleep the main thread 2 s
-            
-#----------------------------------------------------------
     def buttonPress_Start(self):
         if self.btn_start.isEnabled():
             self.btn_start.setEnabled(False)
@@ -849,7 +791,6 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 # we run this program                                ####
 #########################################################
 
-from Plotter import CustomWidget
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
