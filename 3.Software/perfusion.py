@@ -17,8 +17,7 @@ import adafruit_max31856
 from PyQt5 import uic, QtWidgets, QtGui, QtCore
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtGui import QFont
-from PyQt5.QtWidgets import  QWidget, QProgressBar, QPushButton, QApplication, QFileDialog, QTableWidget, QTableWidgetItem, QVBoxLayout
-from PyQt5.QtCore import QBasicTimer
+from PyQt5.QtWidgets import  QWidget, QProgressBar, QPushButton, QApplication, QFileDialog, QTableWidget, QTableWidgetItem, QVBoxLayout, QMainWindow, QMenu
 #from Plotter import CustomWidget
 
 #Define Default Pinout
@@ -59,7 +58,7 @@ appTitle = 'Perfusion Control Panel'
 appWidth = 800
 appHeight = 500
 
-numColsMax = 7     #Tabla protocolo
+numColsMax = 8     #Tabla protocolo
 
 #Define the GUI and init libraries
 qtCreatorFile = "forms/interfaz.ui"
@@ -198,12 +197,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.closeEvent = self.closeEvent
         self.setupUi(self)
 
-        #global variableS to PROTOCOLS ///uhmmmm
-        self.timera = QBasicTimer()
-        self.step_a = 0
-        self.timerb = QBasicTimer()
-        self.step_b = 0
-        
+       
         #Configure the Main Windows that it's going to be shown
         self.setWindowTitle(appTitle)    #Set the main window title
         self.resize(appWidth, appHeight) #Set the main window size
@@ -258,12 +252,13 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tableWidget.setColumnCount(numColsMax)
 
         self.tableWidget.setColumnWidth(0, 80)
-        self.tableWidget.setColumnWidth(1, 110)
-        self.tableWidget.setColumnWidth(2, 110)
-        self.tableWidget.setColumnWidth(3, 135)
-        self.tableWidget.setColumnWidth(4, 110)
-        self.tableWidget.setColumnWidth(5, 110)
-        self.tableWidget.setColumnWidth(6, 82)
+        self.tableWidget.setColumnWidth(1, 90)
+        self.tableWidget.setColumnWidth(2, 90)
+        self.tableWidget.setColumnWidth(3, 100)
+        self.tableWidget.setColumnWidth(4, 125)
+        self.tableWidget.setColumnWidth(5, 90)
+        self.tableWidget.setColumnWidth(6, 110)
+        self.tableWidget.setColumnWidth(7, 65)
         
 ##FIN----------------------------------------------------------------------------------
 
@@ -285,12 +280,13 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tableWidget.insertRow(rowPosition)
         ##Seleccionamos el ultimo item y agregamos la info
         self.tableWidget.setItem(rowPosition, 0, QTableWidgetItem("Hold"))
-        self.tableWidget.setItem(rowPosition, 1, QTableWidgetItem(self.fromValue.text()))
-        self.tableWidget.setItem(rowPosition, 2, QTableWidgetItem(self.toValue.text()))
-        self.tableWidget.setItem(rowPosition, 3, QTableWidgetItem(self.coolingRate.text()))
-        self.tableWidget.setItem(rowPosition, 4, QTableWidgetItem(self.stepJump.text()))
-        self.tableWidget.setItem(rowPosition, 5, QTableWidgetItem(self.holdTime.text()))
-        self.tableWidget.setItem(rowPosition, 6, QTableWidgetItem("Undone"))
+        self.tableWidget.setItem(rowPosition, 1, QTableWidgetItem("-"))
+        self.tableWidget.setItem(rowPosition, 2, QTableWidgetItem("-"))
+        self.tableWidget.setItem(rowPosition, 3, QTableWidgetItem("-"))
+        self.tableWidget.setItem(rowPosition, 4, QTableWidgetItem("-"))
+        self.tableWidget.setItem(rowPosition, 5, QTableWidgetItem("-"))
+        self.tableWidget.setItem(rowPosition, 6, QTableWidgetItem(self.holdTime.text()))
+        self.tableWidget.setItem(rowPosition, 7, QTableWidgetItem("Undone"))
 
 
     def buttonPress_pushButton_addRamp(self):
@@ -301,10 +297,16 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tableWidget.setItem(rowPosition, 0, QTableWidgetItem("Ramp"))
         self.tableWidget.setItem(rowPosition, 1, QTableWidgetItem(self.fromValue.text()))
         self.tableWidget.setItem(rowPosition, 2, QTableWidgetItem(self.toValue.text()))
-        self.tableWidget.setItem(rowPosition, 3, QTableWidgetItem(self.coolingRate.text()))
-        self.tableWidget.setItem(rowPosition, 4, QTableWidgetItem(self.stepJump.text()))
-        self.tableWidget.setItem(rowPosition, 5, QTableWidgetItem(self.holdTime.text()))
-        self.tableWidget.setItem(rowPosition, 6, QTableWidgetItem("Undone"))
+        if self.timeMode.isChecked():
+            self.tableWidget.setItem(rowPosition, 3, QTableWidgetItem(self.duration.text()))
+            self.tableWidget.setItem(rowPosition, 4, QTableWidgetItem("-"))
+            self.tableWidget.setItem(rowPosition, 5, QTableWidgetItem("-"))
+        elif self.temperatureMode.isChecked():
+            self.tableWidget.setItem(rowPosition, 3, QTableWidgetItem("-"))
+            self.tableWidget.setItem(rowPosition, 4, QTableWidgetItem(self.coolingRate.text()))
+            self.tableWidget.setItem(rowPosition, 5, QTableWidgetItem(self.stepJump.text()))
+        self.tableWidget.setItem(rowPosition, 6, QTableWidgetItem("-"))
+        self.tableWidget.setItem(rowPosition, 7, QTableWidgetItem("Undone"))
  
 
     def buttonPress_start(self):
@@ -313,9 +315,6 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
             self.stop.setEnabled(True)
             self.pause.setEnabled(True)
             self.reset.setEnabled(False)
-        else:
-            self.start.setEnabled(True)
-            self.true.setEnabled(False)
 
 
     def buttonPress_stop(self):
@@ -325,9 +324,6 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
             self.pause.setEnabled(False)
             self.reset.setEnabled(True)
             self.start.setText("START")
-        else:
-            self.start.setEnabled(False)
-            self.true.setEnabled(True)
 
 
     def buttonPress_pause(self):
@@ -337,9 +333,6 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
             self.reset.setEnabled(True)
             self.start.setEnabled(True)
             self.start.setText("RESUME")
-        else:
-            self.start.setEnabled(False)
-            self.true.setEnabled(True)
 
 
     def buttonPress_reset(self):
@@ -350,9 +343,6 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
             self.reset.setEnabled(False)
             self.start.setEnabled(True)
             self.start.setText("START")
-        else:
-            self.start.setEnabled(False)
-            self.true.setEnabled(True)
             
 
 
@@ -372,14 +362,6 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
             self.stepJump.setEnabled(True)
             self.label_23.setEnabled(False)
             self.duration.setEnabled(False) 
-    
-    def loadDefaultProfile(self):
-        list_thermo_module = [
-            self.tr('Module 1'),
-            self.tr('Module 2'),
-            self.tr('Module 3'),
-          
-        ]
 
 
 ##FIN-------------------------------------------------------------------
@@ -458,58 +440,13 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
     ##            'PROTOCOLS' TAB (BUTTONS ACTIONS      ##
     ###########################################################
 
-
-    def resetBar_a(self):
-        self.step_a = 0
-        
-
-    def startProgress_a(self):
-        if self.timera.isActive():
-            self.timera.stop()
-            self.btnStart_step_a.setText('START')
-        else:
-            self.timera.start(100, self)# se parece a una espera de 100 ms
-            self.btnStart_step_a.setText('STOP')
-
-    def resetBar_b(self):
-        self.step_b = 0
-        
-
-    def startProgress_b(self):
-        if self.timerb.isActive():
-            self.timerb.stop()
-            self.btnStart_step_b.setText('START')
-        else:
-            self.timerb.start(200, self)# se parece a una espera de 100 ms
-            self.btnStart_step_b.setText('STOP')
-
-    def timerEvent(self, event):
-        if self.step_a < 20:
-            dac_b.raw_value =0
-        elif self.step_a >= 20 and self.step_a <= 120:
-            dac_b.raw_value =4095
-        elif self.step_a > 120:
-            dac_b.raw_value =0
-            self.timera.stop()
-            self.btnStart_step_a.setText('START')
-            return
-
-        if self.step_b < 10:
-            dac_a.raw_value =0
-        elif self.step_b >= 10 and self.step_b <= 60:
-            dac_a.raw_value =4095
-        elif self.step_b > 60:
-            dac_a.raw_value =0
-            self.timerb.stop()
-            self.btnStart_step_b.setText('START')
-            return
-
-        self.step_a +=1
-        self.step_b +=1
-        
-       
-
-
+    def contextMenuEvent(self, event):
+        contextMenu = QMenu(self)
+        deleteAct = contextMenu.addAction("Delete")
+        action = contextMenu.exec_(self.mapToGlobal(event.pos()))
+        if action == deleteAct:
+            row = self.tableWidget.currentRow()
+            self.tableWidget.removeRow(row)
         
         
 
@@ -572,10 +509,6 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.lineEdit_relay1.setText(line[1])
               if(line[0] == 'relay2'):
                 self.lineEdit_relay2.setText(line[1])
-#alberto-----------------------------------------------------------------------------------
-
-                
-#-------------------------------------------------------------------------------------------
               if(line[0] == 'buzzer'):
                 self.lineEdit_buzzer.setText(line[1])
               if(line[0] == 'i2c_sda'):
@@ -666,23 +599,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
             self.btn_pump_1.setText('FORCE PUMP 1')
             #self.btn_pump_1.setEnabled(True)
 
-    def buttonPress_Start(self):
-        if self.btn_start.isEnabled():
-            self.btn_start.setEnabled(False)
-            self.btn_stop.setEnabled(True)
-        else:
-            self.btn_start.setEnabled(True)
-            self.btn_true.setEnabled(False)
-
-
-    def buttonPress_Stop(self):
-        if self.btn_stop.isEnabled():
-            self.btn_start.setEnabled(True)
-            self.btn_stop.setEnabled(False)
-        else:
-            self.btn_start.setEnabled(False)
-            self.btn_true.setEnabled(True)
-
+   
 
     def loadDefaultProfile(self):
         list_thermo_types = [
