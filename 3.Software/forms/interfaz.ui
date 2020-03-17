@@ -1311,7 +1311,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>Elapsed Time</string>
+        <string>Estimated Time</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="holdTime_4">
@@ -1338,12 +1338,12 @@
         <rect>
          <x>150</x>
          <y>70</y>
-         <width>71</width>
+         <width>81</width>
          <height>20</height>
         </rect>
        </property>
        <property name="text">
-        <string>Estimated Time</string>
+        <string>Remaining Time</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="holdTime_6">
