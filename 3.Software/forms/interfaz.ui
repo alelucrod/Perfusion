@@ -223,6 +223,15 @@
             </color>
            </brush>
           </colorrole>
+          <colorrole role="PlaceholderText">
+           <brush brushstyle="NoBrush">
+            <color alpha="128">
+             <red>0</red>
+             <green>0</green>
+             <blue>0</blue>
+            </color>
+           </brush>
+          </colorrole>
          </active>
          <inactive>
           <colorrole role="WindowText">
@@ -360,6 +369,15 @@
             </color>
            </brush>
           </colorrole>
+          <colorrole role="PlaceholderText">
+           <brush brushstyle="NoBrush">
+            <color alpha="128">
+             <red>0</red>
+             <green>0</green>
+             <blue>0</blue>
+            </color>
+           </brush>
+          </colorrole>
          </inactive>
          <disabled>
           <colorrole role="WindowText">
@@ -491,6 +509,15 @@
           <colorrole role="ToolTipText">
            <brush brushstyle="SolidPattern">
             <color alpha="255">
+             <red>0</red>
+             <green>0</green>
+             <blue>0</blue>
+            </color>
+           </brush>
+          </colorrole>
+          <colorrole role="PlaceholderText">
+           <brush brushstyle="NoBrush">
+            <color alpha="128">
              <red>0</red>
              <green>0</green>
              <blue>0</blue>
@@ -667,6 +694,15 @@
             </color>
            </brush>
           </colorrole>
+          <colorrole role="PlaceholderText">
+           <brush brushstyle="NoBrush">
+            <color alpha="128">
+             <red>0</red>
+             <green>0</green>
+             <blue>0</blue>
+            </color>
+           </brush>
+          </colorrole>
          </active>
          <inactive>
           <colorrole role="WindowText">
@@ -804,6 +840,15 @@
             </color>
            </brush>
           </colorrole>
+          <colorrole role="PlaceholderText">
+           <brush brushstyle="NoBrush">
+            <color alpha="128">
+             <red>0</red>
+             <green>0</green>
+             <blue>0</blue>
+            </color>
+           </brush>
+          </colorrole>
          </inactive>
          <disabled>
           <colorrole role="WindowText">
@@ -935,6 +980,15 @@
           <colorrole role="ToolTipText">
            <brush brushstyle="SolidPattern">
             <color alpha="255">
+             <red>0</red>
+             <green>0</green>
+             <blue>0</blue>
+            </color>
+           </brush>
+          </colorrole>
+          <colorrole role="PlaceholderText">
+           <brush brushstyle="NoBrush">
+            <color alpha="128">
              <red>0</red>
              <green>0</green>
              <blue>0</blue>
@@ -1027,9 +1081,9 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>80</y>
-        <width>241</width>
-        <height>181</height>
+        <y>100</y>
+        <width>781</width>
+        <height>191</height>
        </rect>
       </property>
       <property name="title">
@@ -1038,11 +1092,18 @@
       <widget class="QPushButton" name="pushButton_addHold">
        <property name="geometry">
         <rect>
-         <x>20</x>
+         <x>290</x>
          <y>150</y>
          <width>191</width>
          <height>23</height>
         </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
        </property>
        <property name="cursor">
         <cursorShape>PointingHandCursor</cursorShape>
@@ -1055,7 +1116,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>30</y>
+         <y>40</y>
          <width>121</width>
          <height>16</height>
         </rect>
@@ -1067,8 +1128,8 @@
       <widget class="QLineEdit" name="holdTime">
        <property name="geometry">
         <rect>
-         <x>160</x>
-         <y>30</y>
+         <x>170</x>
+         <y>40</y>
          <width>71</width>
          <height>20</height>
         </rect>
@@ -1084,46 +1145,46 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>90</y>
+         <y>100</y>
          <width>131</width>
          <height>16</height>
         </rect>
        </property>
        <property name="text">
-        <string>Cooling Rate (%/minutes)</string>
+        <string>Final Concentration (%)</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_27">
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>60</y>
-         <width>101</width>
+         <y>70</y>
+         <width>131</width>
          <height>16</height>
         </rect>
        </property>
        <property name="text">
-        <string>Initial Solute (%)</string>
+        <string>Initial Concentration (%)</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_28">
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>120</y>
+         <y>130</y>
          <width>141</width>
          <height>16</height>
         </rect>
        </property>
        <property name="text">
-        <string>Estimated Duration (minutes)</string>
+        <string>Time (minutes)</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="holdTime_2">
        <property name="geometry">
         <rect>
-         <x>160</x>
-         <y>60</y>
+         <x>170</x>
+         <y>70</y>
          <width>71</width>
          <height>20</height>
         </rect>
@@ -1138,8 +1199,8 @@
       <widget class="QLineEdit" name="holdTime_3">
        <property name="geometry">
         <rect>
-         <x>160</x>
-         <y>90</y>
+         <x>170</x>
+         <y>100</y>
          <width>71</width>
          <height>20</height>
         </rect>
@@ -1154,8 +1215,8 @@
       <widget class="QLineEdit" name="holdTime_5">
        <property name="geometry">
         <rect>
-         <x>160</x>
-         <y>120</y>
+         <x>170</x>
+         <y>130</y>
          <width>71</width>
          <height>20</height>
         </rect>
@@ -1167,14 +1228,224 @@
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
+      <widget class="QLabel" name="label_23">
+       <property name="geometry">
+        <rect>
+         <x>290</x>
+         <y>20</y>
+         <width>231</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Action to be taken at the end of the interval</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="start_2">
+       <property name="geometry">
+        <rect>
+         <x>660</x>
+         <y>20</y>
+         <width>111</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="text">
+        <string>STOP BIP</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="start_3">
+       <property name="geometry">
+        <rect>
+         <x>660</x>
+         <y>100</y>
+         <width>111</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>10</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="text">
+        <string> NEXT ACTION</string>
+       </property>
+      </widget>
+      <widget class="QWidget" name="">
+       <property name="geometry">
+        <rect>
+         <x>290</x>
+         <y>50</y>
+         <width>224</width>
+         <height>74</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QRadioButton" name="radioButton_2">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+            <weight>50</weight>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>NEXT RAMP</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="radioButton_3">
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>CONTINUE OLD RAMP</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="radioButton_4">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>CONTINUE LAST CONCENTRATION</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="">
+       <property name="geometry">
+        <rect>
+         <x>540</x>
+         <y>50</y>
+         <width>104</width>
+         <height>19</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QCheckBox" name="checkBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>BIP</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox_2">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>NO BIP</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="">
+       <property name="geometry">
+        <rect>
+         <x>540</x>
+         <y>80</y>
+         <width>104</width>
+         <height>19</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QCheckBox" name="checkBox_3">
+          <property name="text">
+           <string>BIP</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox_4">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>NO BIP</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="">
+       <property name="geometry">
+        <rect>
+         <x>540</x>
+         <y>110</y>
+         <width>104</width>
+         <height>19</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QCheckBox" name="checkBox_5">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>BIP</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox_6">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>NO BIP</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
      <widget class="QTableWidget" name="tableWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>270</y>
+        <y>290</y>
         <width>771</width>
-        <height>181</height>
+        <height>161</height>
        </rect>
       </property>
       <property name="minimumSize">
@@ -1199,37 +1470,32 @@
       </column>
       <column>
        <property name="text">
-        <string>Mode</string>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>8</pointsize>
-        </font>
+        <string>Total Flow (ml/minutes)</string>
        </property>
       </column>
       <column>
        <property name="text">
-        <string>Total Flow (ml/min)</string>
+        <string>Initial Concentration (%)</string>
        </property>
       </column>
       <column>
        <property name="text">
-        <string>Initial Solute(%)</string>
+        <string>Final Concentration (%)</string>
        </property>
       </column>
       <column>
        <property name="text">
-        <string>Cooling Rate (ml-Min)</string>
+        <string>Time (minutes)</string>
        </property>
       </column>
       <column>
        <property name="text">
-        <string>Pressure (mmHg)</string>
+        <string>Alarm</string>
        </property>
       </column>
       <column>
        <property name="text">
-        <string>Estimated Duration</string>
+        <string>Next action</string>
        </property>
       </column>
       <column>
@@ -1241,10 +1507,10 @@
      <widget class="QGroupBox" name="groupBox_10">
       <property name="geometry">
        <rect>
-        <x>530</x>
-        <y>80</y>
-        <width>251</width>
-        <height>181</height>
+        <x>310</x>
+        <y>10</y>
+        <width>481</width>
+        <height>91</height>
        </rect>
       </property>
       <property name="title">
@@ -1253,9 +1519,9 @@
       <widget class="QPushButton" name="start">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>30</y>
-         <width>111</width>
+         <x>10</x>
+         <y>20</y>
+         <width>81</width>
          <height>61</height>
         </rect>
        </property>
@@ -1280,9 +1546,9 @@
        </property>
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>110</y>
-         <width>111</width>
+         <x>190</x>
+         <y>20</y>
+         <width>81</width>
          <height>61</height>
         </rect>
        </property>
@@ -1301,44 +1567,12 @@
         <string>RESET</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_23">
-       <property name="geometry">
-        <rect>
-         <x>150</x>
-         <y>20</y>
-         <width>71</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Estimated Time</string>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="holdTime_4">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="geometry">
-        <rect>
-         <x>150</x>
-         <y>40</y>
-         <width>71</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>00:00:00</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
       <widget class="QLabel" name="label_30">
        <property name="geometry">
         <rect>
-         <x>150</x>
-         <y>70</y>
-         <width>81</width>
+         <x>280</x>
+         <y>20</y>
+         <width>91</width>
          <height>20</height>
         </rect>
        </property>
@@ -1352,11 +1586,18 @@
        </property>
        <property name="geometry">
         <rect>
-         <x>150</x>
-         <y>90</y>
-         <width>71</width>
-         <height>20</height>
+         <x>280</x>
+         <y>40</y>
+         <width>91</width>
+         <height>31</height>
         </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
        </property>
        <property name="text">
         <string>00:00:00</string>
@@ -1368,9 +1609,9 @@
       <widget class="QLabel" name="label_32">
        <property name="geometry">
         <rect>
-         <x>150</x>
-         <y>120</y>
-         <width>71</width>
+         <x>380</x>
+         <y>20</y>
+         <width>81</width>
          <height>20</height>
         </rect>
        </property>
@@ -1384,17 +1625,51 @@
        </property>
        <property name="geometry">
         <rect>
-         <x>150</x>
-         <y>140</y>
-         <width>71</width>
-         <height>20</height>
+         <x>380</x>
+         <y>40</y>
+         <width>91</width>
+         <height>31</height>
         </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
        </property>
        <property name="text">
         <string>0 ºC</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="start_5">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>100</x>
+         <y>20</y>
+         <width>81</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="text">
+        <string>STOP</string>
        </property>
       </widget>
      </widget>
@@ -1453,284 +1728,6 @@
          <string>Module 3</string>
         </property>
        </item>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_8">
-      <property name="geometry">
-       <rect>
-        <x>270</x>
-        <y>80</y>
-        <width>241</width>
-        <height>181</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Pressure control mode</string>
-      </property>
-      <widget class="QPushButton" name="pushButton_addRamp">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>150</y>
-         <width>191</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="cursor">
-        <cursorShape>PointingHandCursor</cursorShape>
-       </property>
-       <property name="text">
-        <string>Add interval to the list</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_5">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>60</y>
-         <width>81</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Initial Solute (%)</string>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="toValue">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="geometry">
-        <rect>
-         <x>160</x>
-         <y>60</y>
-         <width>71</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>0</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_4">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>30</y>
-         <width>131</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Total Flow (ml/minutes)</string>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="fromValue">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="geometry">
-        <rect>
-         <x>160</x>
-         <y>30</y>
-         <width>71</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>0</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_6">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>90</y>
-         <width>111</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Pressure (mmHg)</string>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="coolingRate">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="geometry">
-        <rect>
-         <x>160</x>
-         <y>90</y>
-         <width>71</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>0</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_7">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>120</y>
-         <width>141</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Estimated Duration (minutes)</string>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="stepJump">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="geometry">
-        <rect>
-         <x>160</x>
-         <y>120</y>
-         <width>71</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>0</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_12">
-      <property name="geometry">
-       <rect>
-        <x>270</x>
-        <y>10</y>
-        <width>511</width>
-        <height>61</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>General actions to be taken while performing protocol interval list</string>
-      </property>
-      <widget class="QPushButton" name="start_2">
-       <property name="geometry">
-        <rect>
-         <x>140</x>
-         <y>20</y>
-         <width>101</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Arial</family>
-         <pointsize>10</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="cursor">
-        <cursorShape>PointingHandCursor</cursorShape>
-       </property>
-       <property name="text">
-        <string>STOP RAMP</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="start_3">
-       <property name="geometry">
-        <rect>
-         <x>260</x>
-         <y>20</y>
-         <width>101</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Arial</family>
-         <pointsize>10</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="cursor">
-        <cursorShape>PointingHandCursor</cursorShape>
-       </property>
-       <property name="text">
-        <string>NEXT RAMP</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="start_4">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>20</y>
-         <width>101</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Arial</family>
-         <pointsize>10</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="cursor">
-        <cursorShape>PointingHandCursor</cursorShape>
-       </property>
-       <property name="text">
-        <string>STOP ALARM</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="stop">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="geometry">
-        <rect>
-         <x>380</x>
-         <y>20</y>
-         <width>111</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Arial</family>
-         <pointsize>10</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="cursor">
-        <cursorShape>PointingHandCursor</cursorShape>
-       </property>
-       <property name="text">
-        <string>STOP ALL !</string>
-       </property>
       </widget>
      </widget>
     </widget>
