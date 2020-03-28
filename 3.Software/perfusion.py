@@ -235,17 +235,21 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
 ##Desiré: nuevos botones pestaña protocols--------------------------------------	
 
-        ###self.pushButton_addHold.clicked.connect(self.buttonPress_pushButton_addHold)
-        ###self.pushButton_addRamp.clicked.connect(self.buttonPress_pushButton_addRamp)
+        self.addInterval.clicked.connect(self.buttonPress_addInterval)
+       
+        self.BIP.clicked.connect(self.buttonPress_BIP)
+        self.NOBIP.clicked.connect(self.buttonPress_NOBIP)
 
+        self.RBnextRamp.clicked.connect(self.buttonPress_RBnextRamp)
+        self.RBcontinueOldRamp.clicked.connect(self.buttonPress_RBcontinueOldRamp)
+        self.RBcontinueLastConcentration.clicked.connect(self.buttonPress_RBcontinueLastConcentration)
    
-        ###self.start.clicked.connect(self.buttonPress_start)
-        ###self.pause.clicked.connect(self.buttonPress_pause)
-        ###self.reset.clicked.connect(self.buttonPress_reset)
-        ###self.stop.clicked.connect(self.buttonPress_stop)
-
-        ###self.timeMode.clicked.connect(self.buttonPress_timeMode)
-        ###self.temperatureMode.clicked.connect(self.buttonPress_temperatureMode)
+        self.stopBip.clicked.connect(self.buttonPress_stopBip)
+        self.nextRamp.clicked.connect(self.buttonPress_nextRamp)
+        
+        self.start.clicked.connect(self.buttonPress_start)
+        self.reset.clicked.connect(self.buttonPress_reset)
+        self.stop.clicked.connect(self.buttonPress_stop)
 
 
         #Maquetacion de columnas (tabla protocolo)
@@ -274,56 +278,42 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
     ###########################################################  
 
 
-    def buttonPress_pushButton_addHold(self):
+    def buttonPress_pushButton_addInterval(self):
         ##agregamos fila vacia
         rowPosition = self.tableWidget.rowCount()
         self.tableWidget.insertRow(rowPosition)
         ##Seleccionamos el ultimo item y agregamos la info
-        ###self.tableWidget.setItem(rowPosition, 0, QTableWidgetItem("Hold"))
-        ###self.tableWidget.setItem(rowPosition, 1, QTableWidgetItem("-"))
-        ###self.tableWidget.setItem(rowPosition, 2, QTableWidgetItem("-"))
-        ###self.tableWidget.setItem(rowPosition, 3, QTableWidgetItem("-"))
-        ###self.tableWidget.setItem(rowPosition, 4, QTableWidgetItem("-"))
-        ###self.tableWidget.setItem(rowPosition, 5, QTableWidgetItem("-"))
-        ###self.tableWidget.setItem(rowPosition, 6, QTableWidgetItem(self.holdTime.text()))
-        ###self.tableWidget.setItem(rowPosition, 7, QTableWidgetItem("Undone"))
-
-
-   ### def buttonPress_pushButton_addRamp(self):
-        ##agregamos fila vacia
-      ###  rowPosition = self.tableWidget.rowCount()
-        ###self.tableWidget.insertRow(rowPosition)
-        ##Seleccionamos el ultimo item y agregamos la info
-        ###self.tableWidget.setItem(rowPosition, 0, QTableWidgetItem("Ramp"))
-        ###self.tableWidget.setItem(rowPosition, 1, QTableWidgetItem(self.fromValue.text()))
-        ###self.tableWidget.setItem(rowPosition, 2, QTableWidgetItem(self.toValue.text()))
-        ###if self.timeMode.isChecked():
-           ### self.tableWidget.setItem(rowPosition, 3, QTableWidgetItem(self.duration.text()))
-            ##3self.tableWidget.setItem(rowPosition, 4, QTableWidgetItem("-"))
-            ###self.tableWidget.setItem(rowPosition, 5, QTableWidgetItem("-"))
-    ##3    elif self.temperatureMode.isChecked():
-       ###     self.tableWidget.setItem(rowPosition, 3, QTableWidgetItem("-"))
-          ###  self.tableWidget.setItem(rowPosition, 4, QTableWidgetItem(self.coolingRate.text()))
-           ### self.tableWidget.setItem(rowPosition, 5, QTableWidgetItem(self.stepJump.text()))
-        ###self.tableWidget.setItem(rowPosition, 6, QTableWidgetItem("-"))
-        ###self.tableWidget.setItem(rowPosition, 7, QTableWidgetItem("Undone"))
+        self.tableWidget.setItem(rowPosition, 0, QTableWidgetItem("Números???"))
+        self.tableWidget.setItem(rowPosition, 1, QTableWidgetItem(self.totalFlow.text()))
+        self.tableWidget.setItem(rowPosition, 2, QTableWidgetItem(self.initialConcentration.text()))
+        self.tableWidget.setItem(rowPosition, 3, QTableWidgetItem(self.finalConcentration.text()))
+        self.tableWidget.setItem(rowPosition, 4, QTableWidgetItem(self.time.text()))
+          if self.BIP.isChecked():
+              self.tableWidget.setItem(rowPosition, 5, QTableWidgetItem("YES"))
+          elif self.NOBIP.isChecked():
+              self.tableWidget.setItem(rowPosition, 5, QTableWidgetItem("NO"))
+          if self.RBnextRamp.isChecked():
+              self.tableWidget.setItem(rowPosition, 6, QTableWidgetItem("Next Ramp"))
+          elif self.RBcontinueOldRamp.isChecked():
+              self.tableWidget.setItem(rowPosition, 6, QTableWidgetItem("Continue Old Ramp"))
+          elif self.RBcontinueLastConcentration.isChecked():    
+        self.tableWidget.setItem(rowPosition, 6, QTableWidgetItem("Continue Last Concentration"))
+        self.tableWidget.setItem(rowPosition, 7, QTableWidgetItem("Undone"))
  
 
     def buttonPress_start(self):
         if self.start.isEnabled():
             self.start.setEnabled(False)
             self.stop.setEnabled(True)
-            self.pause.setEnabled(True)
             self.reset.setEnabled(False)
+            self.start.setText("PAUSE")
 
-
-    ###def buttonPress_stop(self):
-       ##3 if self.stop.isEnabled():
-          ###  self.start.setEnabled(True)
-            ###self.stop.setEnabled(False)
-            ###self.pause.setEnabled(False)
-            ##3self.reset.setEnabled(True)
-            ###self.start.setText("START")
+    def buttonPress_stop(self):
+        if self.stop.isEnabled():
+            self.start.setEnabled(True)
+            self.stop.setEnabled(False)
+            self.reset.setEnabled(True)
+            self.start.setText("START")
 
 
   ###  def buttonPress_pause(self):
@@ -335,33 +325,13 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
             ##self.start.setText("RESUME")
 
 
-    ###def buttonPress_reset(self):
+    def buttonPress_reset(self):
 
-       ### if self.reset.isEnabled():
-          ##3  self.pause.setEnabled(False)
-            ###self.stop.setEnabled(False)
-            ###self.reset.setEnabled(False)
-            ###self.start.setEnabled(True)
-            ###self.start.setText("START")
-            
-
-
-  ###  def buttonPress_timeMode(self):
-     ###       self.label_6.setEnabled(False)
-        ###    self.coolingRate.setEnabled(False)
-           ### self.label_7.setEnabled(False)
-            ###self.stepJump.setEnabled(False)
-            ###self.label_23.setEnabled(True)
-            ###self.duration.setEnabled(True)
-
-  ###  def buttonPress_temperatureMode(self):
-
-     ###       self.label_6.setEnabled(True)
-        ###    self.coolingRate.setEnabled(True)
-           ## self.label_7.setEnabled(True)
-            ##3self.stepJump.setEnabled(True)
-            ###self.label_23.setEnabled(False)
-            ###self.duration.setEnabled(False) 
+        if self.reset.isEnabled():
+            self.stop.setEnabled(False)
+            self.reset.setEnabled(False)
+            self.start.setEnabled(True)
+            self.start.setText("START")
 
 
 ##FIN-------------------------------------------------------------------
